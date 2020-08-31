@@ -1,32 +1,39 @@
 from django.test import TestCase
-from .models import Product
+from .models import Item
 
 
-class ProductModelTest(TestCase):
-    def test_product_can_be_created_with_default_params(self):
-        Product.objects.create(
-            title='product one'
+class ItemModelTest(TestCase):
+    def test_item_can_be_created_with_default_params(self):
+        Item.objects.create(
+            title='item one'
         )
 
-        product = Product.objects.first()
+        item = Item.objects.first()
         self.assertRegexpMatches(
-            str(product.id),
+            str(item.id),
             r'\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b')
-        self.assertEqual(product.title, 'product one')
-        self.assertEqual(product.description, '')
-        self.assertEqual(float(product.price), 0.00)
+        self.assertEqual(item.title, 'item one')
+        self.assertEqual(item.description, '')
+        self.assertEqual(float(item.price), 0.00)
 
-    def test_product_can_be_created_with_assigned_params(self):
-        Product.objects.create(
-            title='product one',
-            description='product one description',
+    def test_item_can_be_created_with_assigned_params(self):
+        Item.objects.create(
+            title='item one',
+            description='item one description',
             price=1.15,
         )
 
-        product = Product.objects.first()
+        item = Item.objects.first()
         self.assertRegexpMatches(
-            str(product.id),
+            str(item.id),
             r'\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b')
-        self.assertEqual(product.title, 'product one')
-        self.assertEqual(product.description, 'product one description')
-        self.assertEqual(float(product.price), 1.15)
+        self.assertEqual(item.title, 'item one')
+        self.assertEqual(item.description, 'item one description')
+        self.assertEqual(float(item.price), 1.15)
+
+
+class CategoryModelTest(TestCase):
+    def test_category_can_be_created(self):
+        Category.objects.create(
+            name='category one'
+        )
