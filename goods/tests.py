@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.test import TestCase
 from .models import Item, Category
 
@@ -43,3 +44,15 @@ class CategoryModelTest(TestCase):
             str(category.id),
             r'\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b')
         self.assertEqual(category.name, 'category one')
+
+    def test_category_name_should_be_unique(self):
+        Category.objects.create(
+            name='category one'
+        )
+        with self.assertRaises(IntegrityError):
+            category = Category.objects.create(
+                name='category one'
+            )
+            category.full_clean()
+            categories = Category.objects.all()
+            self.assertEqual(len(categories), 1)
