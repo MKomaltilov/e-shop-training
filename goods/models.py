@@ -7,6 +7,7 @@ class Item(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(max_length=500, default='')
     price = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
+    categories = models.ManyToManyField('Category', null=True, blank=True, related_name='items')
 
 
 class Category(models.Model):

@@ -32,6 +32,25 @@ class ItemModelTest(TestCase):
         self.assertEqual(item.description, 'item one description')
         self.assertEqual(float(item.price), 1.15)
 
+    def test_item_can_be_assigned_to_few_categories(self):
+        category_one = Category.objects.create(name='category one')
+        category_two = Category.objects.create(name='category two')
+        category_three = Category.objects.create(name='category three')
+
+        item = Item.objects.create(title='item one')
+        item.categories.add(category_one)
+        item.categories.add(category_three)
+        item.save()
+
+        expected_item = Item.objects.first()
+        categories = expected_item.categories.all()
+
+        self.assertEqual(len(categories), 2)
+        self.assertIn(category_one, categories)
+        self.assertIn(category_three, categories)
+
+        self.assertNotIn(category_two, categories)
+
 
 class CategoryModelTest(TestCase):
     def test_category_can_be_created(self):
