@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .models import Item
+from .models import Item, Category
 
 
 class ItemModelTest(TestCase):
@@ -37,3 +37,9 @@ class CategoryModelTest(TestCase):
         Category.objects.create(
             name='category one'
         )
+
+        category = Category.objects.first()
+        self.assertRegexpMatches(
+            str(category.id),
+            r'\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b')
+        self.assertEqual(category.name, 'category one')
